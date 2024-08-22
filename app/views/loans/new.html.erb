@@ -1,6 +1,8 @@
 <h1>Create Loan</h1>
 
 <%= form_with(model: @loan) do |form| %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
   <% if @loan.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(@loan.errors.count, "error") %> prohibited this loan from being saved:</h2>

@@ -1,1 +1,13 @@
-<%= link_to 'Create Loan', new_loans_path, class: 'btn btn-primary' %>
+<%= link_to 'View Profile', user_profile_path, class: 'btn btn-outline-primary' %>
+<br><br>
+<% if current_user.loan.present? %>
+  <div>
+    <h3>Your Total Amount is <%current_user.total_amount%></h3>
+  </div>
+  <p>Track Your loan by clicking below link</p>
+  <div>
+    <%= link_to "Loan Details", loan_path(current_user.loan) %>
+  </div>
+<%else%>
+  <%= link_to 'Create Loan', new_loan_path, class: 'btn btn-primary' %>
+<%end%>

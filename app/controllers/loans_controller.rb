@@ -1,13 +1,13 @@
 class LoansController < ApplicationController
   def index
-    @loan = Loan.where(user_id: params[:user_id])
+    @loan = Loan.where(user_id: current_user.id)
   end
 
   def create
     @loan = Loan.new(loan_params)
     respond_to do |format|
       if @loan.save
-        format.html { redirect_to loans_path(@loan), notice: "Loan created successfully." }
+        format.html { redirect_to loan_path(@loan), notice: "Loan created successfully." }
         format.json { render :show, status: :created, location: @loan }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -31,7 +31,8 @@ class LoansController < ApplicationController
       :title,
       :description,
       :interest_rate,
-      :loan_amount
+      :loan_amount,
+      :user_id
     )
   end
 end

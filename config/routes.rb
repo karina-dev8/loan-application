@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   get '/loans'   => 'loans#index',   as: 'get_user_loan'
   post '/loans'  => 'loans#create',  as: 'create_user_loan'
+  get 'profile', to: 'users#profile', as: 'user_profile'
 
   # Defines the root path route ("/")
   # root "posts#index"
