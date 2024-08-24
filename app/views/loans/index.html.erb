@@ -1,0 +1,3 @@
+<% @loans.each do |loan| %>
+  <%= link_to "#{loan.title}", loan_path(loan), class: 'btn btn-outline-primary' %>
+<%end%>

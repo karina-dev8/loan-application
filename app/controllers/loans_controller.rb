@@ -1,7 +1,8 @@
 class LoansController < ApplicationController
+  protect_from_forgery with: :exception, except: [:repay]
+
   def index
     @loans = Loan.where(user_id: current_user.id)
-    render @loans
   end
 
   def create
@@ -15,6 +16,20 @@ class LoansController < ApplicationController
         format.json { render json: @loan.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def repay
+    @loan = Loan.find(params[:id])
+    if current_user.total_amount >= @loan.loan_amount
+      if @loan.repay_loan!
+        flash[:notice] = "Loan repaid successfully."
+      else
+        flash[:alert] = "Loan repayment failed."
+      end
+    else
+      flash[:alert] = "Insuffesiant balance."
+    end
+    redirect_to loan_path(@loan)
   end
 
   def edit

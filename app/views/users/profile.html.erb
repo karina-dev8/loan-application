@@ -27,7 +27,7 @@
 
 <p>
   <strong>Total Amount:</strong>
-  <%= @user.total_amount %>
+  <%= @user.total_amount.to_i %>
 </p>
 
 <%= form_with url: destroy_user_session_path, method: :delete, local: true do %>

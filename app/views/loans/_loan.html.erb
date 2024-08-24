@@ -11,7 +11,7 @@
 
   <p>
     <strong>Loan Amount:</strong>
-    <%= loan.loan_amount %>
+    <%= loan.loan_amount.to_i %>
   </p>
 
   <p>
@@ -25,10 +25,17 @@
   </p>
 </div>
 
-<div>
-  <%= link_to "Edit the laon", edit_loan_path(loan) %>
-</div>
+<%if loan.loan_status != 'closed' && loan.loan_status != 'rejected' %>
+  <div>
+    <%= link_to "Edit the laon", edit_loan_path(loan) %>
+  </div>
+  <%= form_with url: repay_loan_path(id: loan.id), method: :post do %>
+    <%= button_to 'Repay Loan', nil, class: 'btn btn-primary', data: { confirm: 'Are you sure you want to repay this loan?' } %>
+  <% end %>
+<%end%>
+
 <div>
   <%= link_to "Back to Home", root_path %>
+  <br>
+  <%= link_to "Loan Details", loans_path %>
 </div>
-<p>0-------------------------------------------0</p>
