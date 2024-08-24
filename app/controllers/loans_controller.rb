@@ -18,6 +18,24 @@ class LoansController < ApplicationController
     end
   end
 
+  def approve_loan
+    @loan = Loan.find_by(id: params[:id])
+    previous_status = @loan.loan_status
+
+    respond_to do |format|
+      if @loan.update(loan_status: "open")
+        if @loan.loan_status == "open" && previous_status != "open"
+          process_loan_approval(@loan)
+        end
+        format.html { redirect_to loan_path(@loan), notice: "Loan Approved successfully." }
+        format.json { render :show, status: :created, location: @loan }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @loan.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def repay
     @loan = Loan.find(params[:id])
     if current_user.total_amount >= @loan.loan_amount
@@ -54,10 +72,24 @@ class LoansController < ApplicationController
   end
 
   def show
-    @loan = Loan.find(params[:id])
+    @loan = Loan.find_by(id: params[:id])
   end
 
   private
+
+  def process_loan_approval(loan)
+    admin = loan.admin_user
+    user = loan.user
+    loan_amount = loan.loan_amount
+
+    if admin.wallet_amount >= loan_amount
+      admin.update!(wallet_amount: admin.wallet_amount - loan_amount)
+      user.update!(total_amount: user.total_amount + loan_amount)
+    else
+      flash[:error] = "Don't have sufficient funds to approve this loan."
+      redirect_back(fallback_location: root_path) and return
+    end
+  end
 
   def loan_params
     params.require(:loan).permit(
