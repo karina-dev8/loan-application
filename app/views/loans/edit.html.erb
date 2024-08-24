@@ -42,7 +42,7 @@
 
   <div>
     <%= form.label :change_loan_status, style: "display: block" %>
-    <%= form.select :loan_status, ["readjustment_requested", "open", "rejected"], selected: @loan.loan_status %>
+    <%= form.select :loan_status, ["readjustment_requested", "requested"], selected: @loan.loan_status %>
   </div>
 
   <br>
