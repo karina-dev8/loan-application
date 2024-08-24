@@ -1,7 +1,7 @@
-<h1>Create Loan</h1>
+<h1>Edit Loan</h1>
 
 <%= form_with(model: @loan) do |form| %>
-  <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.hidden_field :user_id, value: @loan.user_id %>
 
   <% if @loan.errors.any? %>
     <div style="color: red">
@@ -17,32 +17,37 @@
 
   <div>
     <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, value: @loan.title %>
   </div>
 
   <div>
     <%= form.label :description, style: "display: block" %>
-    <%= form.text_field :description %>
+    <%= form.text_field :description, value: @loan.description %>
   </div>
 
   <div>
     <%= form.label :loan_amount, style: "display: block" %>
-    <%= form.text_field :loan_amount %>
+    <%= form.text_field :loan_amount, value: @loan.loan_amount %>
   </div>
 
   <div>
     <%= form.label :interest_rate, style: "display: block" %>
-    <%= form.text_field :interest_rate %>
+    <%= form.text_field :interest_rate, value: @loan.interest_rate %>
+  </div>
+  
+  <div>
+    <%= form.label :current_loan_status, style: "display: block" %>
+    <%= form.text_field :loan_status, value: @loan.loan_status %>
   </div>
 
   <div>
-    <%= form.label :loan_status, style: "display: none" %>
-    <%= form.hidden_field :loan_status, value: "requested"  %>
+    <%= form.label :change_loan_status, style: "display: block" %>
+    <%= form.select :loan_status, ["readjustment_requested", "open", "rejected"], selected: @loan.loan_status %>
   </div>
 
   <br>
   <div>
-    <%= form.submit %>
+    <%= form.submit "Update Loan" %>
   </div>
   <br>
   <div>

@@ -18,8 +18,17 @@
     <strong>Interest Rate:</strong>
     <%= loan.interest_rate %>
   </p>
+
+  <p>
+    <strong>Loan Status:</strong>
+    <%= loan.loan_status %>
+  </p>
+</div>
+
+<div>
+  <%= link_to "Edit the laon", edit_loan_path(loan) %>
 </div>
 <div>
   <%= link_to "Back to Home", root_path %>
 </div>
-
+<p>0-------------------------------------------0</p>
