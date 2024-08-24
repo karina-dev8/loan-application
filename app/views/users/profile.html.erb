@@ -1,0 +1,37 @@
+<h1>Profile</h1>
+
+<p>
+  <strong>First Name:</strong>
+  <%= @user.first_name %>
+</p>
+
+<p>
+  <strong>Last Name:</strong>
+  <%= @user.last_name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+
+<p>
+  <strong>Phone Number:</strong>
+  <%= @user.phone_number %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @user.address %>
+</p>
+
+<p>
+  <strong>Total Amount:</strong>
+  <%= @user.total_amount %>
+</p>
+
+<%= form_with url: destroy_user_session_path, method: :delete, local: true do %>
+  <%= submit_tag 'Sign out', class: 'btn btn-outline-primary' %>
+<% end %>
+<br>
+<%= link_to "Back to Home", root_path %>

@@ -1,0 +1,7 @@
+<% unless @loans.present? %>
+  <h4>You don't have any loans. Please create one from the home page.</h4>
+<% else %>
+  <% @loans.each do |loan| %>
+    <%= render loan %>
+  <% end %>
+<% end %>
