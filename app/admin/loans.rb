@@ -1,12 +1,19 @@
 ActiveAdmin.register Loan do
   permit_params :id, :title, :description, :loan_amount, :loan_status, :interest_rate, :admin_user_id
 
+  collection_action :your_loans, method: :get do
+    @loans = Loan.where(admin_user_id: current_admin_user.id)
+    render 'your_loans'
+  end
+
   index do
     selectable_column
     id_column
     column :title
     column :description
-    column :loan_amount
+    column :loan_amount do |loan|
+      loan.loan_amount.to_i
+    end
     column :interest_rate
     column :loan_status
     column :admin_user
@@ -58,7 +65,6 @@ ActiveAdmin.register Loan do
   end
 
   filter :loan_status
-
 
   show do
     attributes_table do

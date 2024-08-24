@@ -27,7 +27,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
-gem "redis", ">= 4.0.1"
+gem 'redis', '~> 4.5.1'
 gem 'dotenv'
 
 gem 'activeadmin'
@@ -35,6 +35,12 @@ gem 'activeadmin'
 gem 'devise'
 gem 'sassc-rails'
 gem 'bootstrap', '~> 5.3.2'
+
+
+gem 'sidekiq', '~> 5.2.10'
+gem 'sidekiq-cron', '~> 1.2'
+gem 'sinatra', require: false
+gem 'whenever', require: false
 
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]

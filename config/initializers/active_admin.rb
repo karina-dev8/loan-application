@@ -262,6 +262,13 @@ ActiveAdmin.setup do |config|
   #     end
   #   end
 
+  config.namespace :admin do |admin|
+    admin.build_menu do |menu|
+      menu.add label: 'Loans', priority: 1, url: '/admin/loans'
+      menu.add label: 'Your Loans', priority: 2, url: '/admin/loans/your_loans'
+    end
+  end
+
   # == Download Links
   #
   # You can disable download links on resource listing pages,

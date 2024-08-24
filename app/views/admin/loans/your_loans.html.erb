@@ -1,0 +1,34 @@
+<table class="index_table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Loan Amount</th>
+      <th>Interest Rate</th>
+      <th>Loan Status</th>
+      <th>Admin User</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @loans.each do |loan| %>
+      <tr>
+        <td><%= loan.id %></td>
+        <td><%= loan.title %></td>
+        <td><%= loan.description %></td>
+        <td><%= loan.loan_amount.to_i %></td>
+        <td><%= loan.interest_rate %></td>
+        <td><%= loan.loan_status %></td>
+        <td><%= loan.admin_user.email %></td>
+        <td>
+          <%= link_to 'View', admin_loan_path(loan), class: 'button' %>
+          <%= link_to 'Edit', edit_admin_loan_path(loan), class: 'button' %>
+          <%= link_to 'Delete', admin_loan_path(loan), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Back', admin_loans_path, class: 'button' %>
