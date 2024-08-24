@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   put 'edit_profile', to: 'users#edit_profile', as: 'edit_profile'
 
   post '/approve_loan', to: 'loans#approve_loan', as: 'approve_loan'
+  post '/reject_loan', to: 'loans#reject_loan', as: 'reject_loan'
   # Defines the root path route ("/")
   # root "posts#index"
 end

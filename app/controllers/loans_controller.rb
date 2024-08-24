@@ -1,5 +1,5 @@
 class LoansController < ApplicationController
-  protect_from_forgery with: :exception, except: [:repay]
+  protect_from_forgery with: :exception, except: [:repay, :reject_loan, :approve_loan]
 
   def index
     @loans = Loan.where(user_id: current_user.id)
@@ -10,6 +10,19 @@ class LoansController < ApplicationController
     respond_to do |format|
       if @loan.save
         format.html { redirect_to loan_path(@loan), notice: "Loan created successfully." }
+        format.json { render :show, status: :created, location: @loan }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @loan.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def reject_loan
+    @loan = Loan.find_by(id: params[:id])
+    respond_to do |format|
+      if @loan.update(loan_status: "rejected")
+        format.html { redirect_to loan_path(@loan), notice: "Loan Rejected successfully." }
         format.json { render :show, status: :created, location: @loan }
       else
         format.html { render :new, status: :unprocessable_entity }
