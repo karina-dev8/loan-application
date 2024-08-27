@@ -1,0 +1,63 @@
+<h2>Loan Change History</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Loan Name</th>
+      <th>Change Date</th>
+      <th>Loan Status</th>
+      <th>Interest Rate</th>
+      <th>Loan Amount</th>
+      <th>Amount With Intrest</th>
+      <th>Chaned By</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @versions.each do |version| %>
+      <% changes = version.object_changes %>
+      <tr>
+        <td><%= Loan.find_by(id: version.item_id).title %></td>
+        <td><%= version.created_at.in_time_zone("Asia/Kolkata").strftime("%Y-%m-%d %H:%M:%S") %></td>
+
+        <td>
+          <% if changes["loan_status"] %>
+            <%= changes["loan_status"].first %>
+            <strong>→</strong>
+            <%= changes["loan_status"].last %>
+          <% end %>
+        </td>
+
+        <td>
+          <% if changes["interest_rate"] %>
+            <%= changes["interest_rate"].first %>
+            <strong>→</strong>
+            <%= changes["interest_rate"].last %>
+          <% end %>
+        </td>
+
+        <td>
+          <% if changes["loan_amount"] %>
+            <%= changes["loan_amount"].first.to_i %>
+            <strong>→</strong>
+            <%= changes["loan_amount"].last.to_i %>
+          <% end %>
+        </td>
+
+        <td>
+          <% if changes["total_amount_with_interest"] %>
+            <%= changes["total_amount_with_interest"].first.to_i %>
+            <strong>→</strong>
+            <%= changes["total_amount_with_interest"].last.to_i %>
+          <% end %>
+        </td>
+
+        <td>
+          <% if version.whodunnit %>
+            <%= AdminUser.find_by(id: version.whodunnit)&.email %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @versions %>

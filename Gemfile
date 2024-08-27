@@ -41,6 +41,8 @@ gem 'sidekiq', '~> 5.2.10'
 gem 'sidekiq-cron', '~> 1.2'
 gem 'sinatra', require: false
 gem 'whenever', require: false
+gem 'paper_trail', '~> 12.0'
+gem 'kaminari'
 
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]

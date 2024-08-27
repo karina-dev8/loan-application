@@ -2,6 +2,7 @@
 <p style="color: green"><%= notice %></p>
 <%= link_to 'View Profile', user_profile_path, class: 'btn btn-outline-primary' %>
 <%= link_to 'Create Loan', new_loan_path, class: 'btn btn-primary' %>
+<%= link_to 'Loan Changes', show_change_logs_path, class: 'btn btn-outline-primary' %>
 <br><br>
 <% if current_user.loan.present? %>
   <div>

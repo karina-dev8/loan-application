@@ -6,6 +6,11 @@ ActiveAdmin.register Loan do
     render 'your_loans'
   end
 
+  collection_action :change_logs, method: :get do
+    @versions = PaperTrail::Version.where(whodunnit: current_admin_user.id)
+    render 'change_logs'
+  end
+
   index do
     selectable_column
     id_column
@@ -20,13 +25,23 @@ ActiveAdmin.register Loan do
     actions
   end
 
+  controller do
+    before_action :set_paper_trail_whodunnit
+
+    private
+
+    def set_paper_trail_whodunnit
+      PaperTrail.request.whodunnit = current_admin_user.id
+    end
+  end
+
   form do |f|
     f.inputs do
       f.input :title
       f.input :description
       f.input :loan_amount, as: :number, min: 0
       f.input :interest_rate
-      f.input :loan_status, as: :select, collection: ['requested', 'approved', 'open', 'closed', 'rejected', 'waiting_for_adjustment_acceptance', 'readjustment_requested']
+      f.input :loan_status, as: :select, collection: ['requested', 'approved', 'closed', 'rejected', 'waiting_for_adjustment_acceptance', 'readjustment_requested']
       f.hidden_field :admin_user_id, value: current_admin_user.id
     end
     f.actions

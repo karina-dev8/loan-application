@@ -21,6 +21,5 @@ Rails.application.routes.draw do
 
   post '/approve_loan', to: 'loans#approve_loan', as: 'approve_loan'
   post '/reject_loan', to: 'loans#reject_loan', as: 'reject_loan'
-  # Defines the root path route ("/")
-  # root "posts#index"
+  get '/show_change_logs', to: 'loans#show_change_logs', as: 'show_change_logs'
 end

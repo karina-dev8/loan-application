@@ -27,7 +27,7 @@
 
   <div>
     <%= form.label :loan_amount, style: "display: block" %>
-    <%= form.text_field :loan_amount, value: @loan.loan_amount %>
+    <%= form.text_field :loan_amount, value: @loan.loan_amount.to_i %>
   </div>
 
   <div>
@@ -41,8 +41,8 @@
   </div>
 
   <div>
-    <%= form.label :change_loan_status, style: "display: block" %>
-    <%= form.select :loan_status, ["readjustment_requested", "requested"], selected: @loan.loan_status %>
+    <%= form.label :loan_status, style: "display: block" %>
+    <%= form.select :loan_status, options_for_select(["readjustment_requested", "requested"], @loan.loan_status), include_blank: true %>
   </div>
 
   <br>
