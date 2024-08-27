@@ -266,6 +266,7 @@ ActiveAdmin.setup do |config|
     admin.build_menu do |menu|
       menu.add label: 'Loans', priority: 1, url: '/admin/loans'
       menu.add label: 'Your Loans', priority: 2, url: '/admin/loans/your_loans'
+      menu.add label: 'Change Logs', priority: 3, url: '/admin/loans/change_logs'
     end
   end
 

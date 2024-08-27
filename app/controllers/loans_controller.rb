@@ -7,6 +7,7 @@ class LoansController < ApplicationController
 
   def create
     @loan = Loan.new(loan_params)
+    @loan.total_amount_with_interest = loan_params[:loan_amount]
     respond_to do |format|
       if @loan.save
         format.html { redirect_to loan_path(@loan), notice: "Loan created successfully." }
@@ -49,16 +50,24 @@ class LoansController < ApplicationController
     end
   end
 
+  def show_change_logs
+    @loans = Loan.where(user_id: current_user.id).includes(:versions)
+    versions_array = @loans.flat_map do |loan|
+      loan.versions.where(event: 'update')
+    end
+    @versions = Kaminari.paginate_array(versions_array).page(params[:page]).per(15)
+  end
+
   def repay
     @loan = Loan.find(params[:id])
-    if current_user.total_amount >= @loan.loan_amount
+    if current_user.total_amount >= @loan.total_amount_with_interest
       if @loan.repay_loan!
         flash[:notice] = "Loan repaid successfully."
       else
         flash[:alert] = "Loan repayment failed."
       end
     else
-      flash[:alert] = "Insuffesiant balance."
+      flash[:alert] = "Insuffesiant balance in your user account to repay the loan."
     end
     redirect_to loan_path(@loan)
   end
@@ -69,8 +78,13 @@ class LoansController < ApplicationController
 
   def update
     @loan = Loan.find_by(id: params[:id])
+    loan_param = params.require(:loan).permit(:title, :description, :interest_rate, :loan_amount, :user_id)
+    loan_status = params[:loan_status]
+    if loan_status.present?
+      @loan.loan_status = loan_status
+    end
     respond_to do |format|
-      if @loan.update(loan_params)
+      if @loan.update(loan_param)
         format.html { redirect_to loan_path(@loan), notice: "Loan updated successfully." }
         format.json { render :show, status: :created, location: @loan }
       else

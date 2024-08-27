@@ -1,3 +1,5 @@
+<p style="color: green"><%= alert %></p>
+
 <%if loan.loan_status == 'approved' || loan.loan_status == 'waiting_for_adjustment_acceptance' %>
   <h4>Your loan is approved Please confirm by clicking below link: </h2>
   <div>
@@ -37,12 +39,20 @@
     <strong>Loan Status:</strong>
     <%= loan.loan_status %>
   </p>
+
+  <p>
+    <strong>Due Amount:</strong>
+  <%= loan.total_amount_with_interest.to_i %>
+  </p>
 </div>
 
 <%if loan.loan_status != 'closed' && loan.loan_status != 'rejected' &&  loan.loan_status != 'requested' %>
   <div>
     <%= link_to "Edit the loan", edit_loan_path(loan) %>
   </div>
+<%end%>
+
+<%if loan.total_amount_with_interest.present? && loan.loan_status != 'rejected' &&  loan.loan_status != 'requested' %>
   <%= form_with url: repay_loan_path(id: loan.id), method: :post do %>
     <%= button_to 'Repay Loan', nil, class: 'btn btn-primary', data: { confirm: 'Are you sure you want to repay this loan?' } %>
   <% end %>
